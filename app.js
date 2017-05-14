@@ -5,7 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
+require('./lib/mongooseConnection');
+require('./models/Anuncio');
+require('./models/Usuario');
 
 var app = express();
 
@@ -21,8 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/',      require('./routes/index'));
-app.use('/users', require('./routes/users'));
+app.use('/',              require('./routes/index'));
+app.use('/apiv1/anuncios', require('./routes/apiv1/anuncios'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -33,13 +35,23 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  // si isApi es true, el error lo devolvemos en json
+  if (isApi(req)){
+    res.json({success: false, error: err.message});
+    return;
+  }
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
   res.render('error');
 });
+
+// Comprueba si estamos recibiendo una petición para la ruta /api
+function  isApi(req){
+  return req.originalUrl.indexOf('/api') === 0;
+}
 
 module.exports = app;

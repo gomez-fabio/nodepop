@@ -1,0 +1,9 @@
+{
+  "usuarios": [
+      {
+        "nombre": "fabio",
+        "email": "gomez.fabio@gmail.com",
+        "clave": "letmein"
+      }
+  ]
+}
