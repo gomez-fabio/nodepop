@@ -15,19 +15,31 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
+const cluster = require('cluster'); // para ejecutar en modo cluster
 
-var server = http.createServer(app);
+if(cluster.isMaster){
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+  const numCPUs = require('os').cpus().length;
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+  for (let i = 0; i < numCPUs; i++){
+    cluster.fork;
+  }
+
+} else{
+  /**
+   * Create HTTP server.
+   */
+
+  var server = http.createServer(app);
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
 /**
  * Normalize a port into a number, string, or false.
