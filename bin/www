@@ -17,15 +17,16 @@ app.set('port', port);
 
 const cluster = require('cluster'); // para ejecutar en modo cluster
 
-if(cluster.isMaster){
+ if(cluster.isMaster){
 
-  const numCPUs = require('os').cpus().length;
+   const numCPUs = require('os').cpus().length;
 
-  for (let i = 0; i < numCPUs; i++){
-    cluster.fork;
-  }
+   for (let i = 0; i < numCPUs; i++){
+     cluster.fork();
+   }
 
-} else{
+ } else{
+ 
   /**
    * Create HTTP server.
    */

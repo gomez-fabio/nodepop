@@ -9,6 +9,7 @@ const initAnuncios = require('./init/initAnuncios');
 async function init(){
     await initAnuncios();
     //await initUsuarios();
+    process.exit(0);
 }
 
 // proceso la promesa del init
