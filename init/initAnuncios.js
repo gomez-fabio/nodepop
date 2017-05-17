@@ -1,34 +1,10 @@
 "use strict";
 
 const mongoose = require('mongoose');
-const Anuncio = require('../models/Anuncio');
+const Anuncios = require('../models/Anuncio');
 const modeloAnuncio  = mongoose.model('Anuncio');
 
 const leerFichero = require('./leeFichero');
-
-// Funcion que devuelve una promesa con la que leemos los anuncios
-function leerAnuncios(){
-    return new Promise((resolve, reject) =>{
-        Anuncio.find().exec((err, lista) => {
-            if(err){
-                reject(err);
-            }
-            resolve(lista);
-        });
-    });
-}
-
-// Funcion que devuelve una promesa con la que borramos los anuncios
-function borrarAnuncios(idAnuncio) {
-  return new Promise((resolve, reject) => {
-    Anuncio.remove({ _id: idAnuncio }, (err, borrado) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(borrado);
-    });
-  });
-}
 
 // Funcion que devuelve una promesa con la que leemos el json
 function leerJson() {
@@ -56,32 +32,36 @@ function cargarAnuncio(anuncioNuevo){
     });
 }
 
-// funcion ppal, leemos de bd, borramos lo leido, leemos fichero json y cargamos lo leido
+// funcion ppal, borramos anuncios, leemos fichero json y cargamos lo leido
 async function initAnuncios(){
 
-    let lista = {};
+    // Borramos el contenido de la colección 
+    await Anuncios.remove({}, (err) => {
+        if (err) {
+            reject(err);
+        }
+    });
 
-    lista = await leerAnuncios(); // leer de bd
-
-    // borramos lo leido
-    for (let i = 0 ; i < lista.length; i++){
-        await borrarAnuncios(lista[i]._id, (err, borrado) => {
+    const listaEnJson = await leerJson(); // leer json
+    
+    // cargamos lo leído del json
+    for (let i = 0 ; i < listaEnJson.anuncios.length ; i ++){
+        await cargarAnuncio(listaEnJson.anuncios[i], (err, anuncioNuevo) =>{
             if (err) {
                 reject(err);
             }
         });
     }
 
-    lista = await leerJson(); // leer json
-
-    for (let i = 0 ; i < lista.anuncios.length ; i ++){
-        await cargarAnuncio(lista.anuncios[i], (err, anuncioNuevo) =>{
-            if (err) {
-                reject(err);
-            }
-        });
-    }
-
+console.log("Colección de anuncios inicializada correctamente.\n");
 }
+
+// initAnuncios()
+//     .then(()=>{
+//     })
+//     .catch(err => {
+//         console.log('Hubo un error en la inicialización de los anuncios: ', err);
+//         process.exit(1);
+//     });
 
 module.exports = initAnuncios;

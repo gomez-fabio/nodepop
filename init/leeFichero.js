@@ -14,8 +14,7 @@ function leeFichero(fichero, callback){   // fichero es el fichero de inicializa
 
         let initJson = {}; // Objeto vacío para almacenar el Json
         try {
-            initJson = JSON.parse(datos); // Parseamos el fichero Json
-            console.log(initJson);
+            initJson = JSON.parse(datos); // Parseamos el fichero Json           
         } catch (err){
             callback(err);
             return;

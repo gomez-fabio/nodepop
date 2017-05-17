@@ -4,6 +4,11 @@
         "nombre": "fabio",
         "email": "gomez.fabio@gmail.com",
         "clave": "letmein"
+      },
+      {
+        "nombre": "ana",
+        "email": "anamc@gmail.com",
+        "clave": "letmeintoo"
       }
   ]
 }
