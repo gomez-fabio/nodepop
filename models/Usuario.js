@@ -13,6 +13,13 @@ const usuarioSchema = mongoose.Schema({
      clave: String
 });
 
+// método estático buscaEmailUsuario
+usuarioSchema.statics.buscaEmailUsario = function(email, callback) {
+    const query = Usuario.find({email: email});
+    query.exec(callback);
+};
+
+
 // Creamos el modelo
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 

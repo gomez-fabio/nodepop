@@ -5,14 +5,15 @@ const router   = express.Router();
 const mongoose = require('mongoose');
 const Anuncio  = mongoose.model('Anuncio');
 
-//const basicAuth = require('../../lib/basicAuth');
-//router.use(basicAuth)
 
+const basicAuth = require('../../lib/basicAuth');
+
+//router.use(basicAuth)
 
 /* GET /apiv1/anuncios */
 // Para recuperar la lista de anuncios
-//router.get('/', basicAuth, (req, res, next) => {
-router.get('/', (req, res, next) => {    
+router.get('/', basicAuth, (req, res, next) => {
+//router.get('/', (req, res, next) => {    
     // Filtros en el queryString
     const nombre = req.query.nombre;
     const venta  = req.query.venta;
