@@ -8,6 +8,8 @@ const crypto = require('crypto');
 const key = 'clavesupersecreta1234YMAYUSCULASyminusculas';
 let hash = crypto.createHmac('sha256', key);
 
+//el hash hay que llevarlo a modulo
+
 router.post('/', (req, res, next)=>{
    const usuario = new Usuario(req.body);
     hash.update(usuario.clave)

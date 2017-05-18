@@ -21,6 +21,6 @@ usuarioSchema.statics.buscaEmailUsario = function(email, callback) {
 
 
 // Creamos el modelo
-const Usuario = mongoose.model('Usuario', usuarioSchema);
+var Usuario = mongoose.model('Usuario', usuarioSchema);
 
 module.exports = Usuario;

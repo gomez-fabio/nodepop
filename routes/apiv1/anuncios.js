@@ -8,12 +8,10 @@ const Anuncio  = mongoose.model('Anuncio');
 
 const basicAuth = require('../../lib/basicAuth');
 
-//router.use(basicAuth)
-
 /* GET /apiv1/anuncios */
-// Para recuperar la lista de anuncios
+
 router.get('/', basicAuth, (req, res, next) => {
-//router.get('/', (req, res, next) => {    
+
     // Filtros en el queryString
     const nombre = req.query.nombre;
     const venta  = req.query.venta;
@@ -56,6 +54,18 @@ router.get('/', basicAuth, (req, res, next) => {
         }
         res.json({success: true, result: listaanuncios});
     });
+});
+
+/*lista de Tags existentes */
+router.get('/tags',basicAuth,(req,res,next)=>{
+     Anuncio.listaTags((err,data)=>{
+            if (err){
+                next(err);
+                return;
+            }
+            res.json({success: true, result: data});
+     });  
+
 });
 
 /* POST /apiv1/anuncios */

@@ -31,6 +31,11 @@ anuncioSchema.statics.list = function(filter, limit, skip, fields, sort, callbac
   query.exec(callback);
 };
 
+// método estático que lsita tags
+anuncioSchema.statics.listaTags = function(callback){
+    Anuncio.distinct('tags',callback);
+};
+
 // Creamos el modelo 
 // Usamos var para hacer hoisting y que esté visible en todo el módulo
 var Anuncio = mongoose.model('Anuncio', anuncioSchema);
