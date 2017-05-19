@@ -31,7 +31,7 @@ anuncioSchema.statics.list = function(filter, limit, skip, fields, sort, callbac
   query.exec(callback);
 };
 
-// método estático que lsita tags
+// método estático que lista tags
 anuncioSchema.statics.listaTags = function(callback){
     Anuncio.distinct('tags',callback);
 };

@@ -22,7 +22,7 @@ function leerJson() {
 function cargarAnuncio(anuncioNuevo){
     return new Promise((resolve, reject) =>{
         const anuncio = new modeloAnuncio(anuncioNuevo);
-
+        anuncio.foto = '/images/anuncios/' + anuncio.foto;
         anuncio.save(anuncioNuevo, (err, cargado) =>{
             if (err) {
                 reject(err);

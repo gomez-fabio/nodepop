@@ -17,6 +17,7 @@ router.get('/', basicAuth, (req, res, next) => {
     const venta  = req.query.venta;
     const precio = req.query.precio;
     const tags   = req.query.tags;
+    const includeTotal = req.query.includeTotal;
     
     const filter = {};
     
@@ -32,20 +33,45 @@ router.get('/', basicAuth, (req, res, next) => {
     
 
     if (nombre) {
-        filter.nombre = nombre;
+        filter.nombre = new RegExp('^' + nombre, "i"); //case no sensitive y que comience por
     }
     
     if (venta) {
-        filter.venta = venta;
+        filter.venta = venta.toLowerCase();
     }
     
     if (precio) {
-        filter.precio = precio;
+        if(precio.indexOf('<') === 0 || precio.indexOf('>') === 0 || precio.includes('-')){
+            if (precio.indexOf('<') === 0 && !precio.includes('-')){
+                //precio menor que
+                filter.precio = {'$lte':parseInt(precio.substr(1,precio.length-1))};
+            }
+            else if (precio.indexOf('>') === 0 && !precio.includes('-')){
+                //precio mayor que
+                filter.precio = {'$gte':parseInt(precio.substr(1,precio.length-1))}
+            }
+            else if (precio.indexOf('-')>0 && precio.indexOf('-'<precio.length)){
+                //rango de precios
+                const limiteInferior = precio.substr(1,precio.indexOf('-')-1);
+                const limiteSuperior = precio.substr(precio.indexOf('-')+2, precio.length);
+                filter.precio = {'$gte': parseInt(limiteInferior),'$lte':parseInt(limiteSuperior)};
+            }
+        }else{
+            //precio exacto
+            console.log('precio exacto', precio);
+            filter.precio = precio;
+        }
     }
 
     if (tags){
-        filter.tags = tags;
+        const arrayTags = tags.toString().toLowerCase().split(","); // separamos elementos del array, el separador es ,
+
+        filter.tags = { $in: arrayTags }; // El operador $in "matchea" los valores de un array
     }
+
+    // if (includeTotal){
+
+    // }
 
     Anuncio.list(filter,limit, skip, fields, sort, (err, listaanuncios) =>{
         if(err){
@@ -81,7 +107,5 @@ router.get('/tags',basicAuth,(req,res,next)=>{
 //         res.json({success: true, result: anuncioGuardado});
 //     });
 // });
-
-
 
 module.exports = router;
