@@ -6,7 +6,7 @@ const path = require('path');
 function leeFichero(fichero, callback){   // fichero es el fichero de inicialización que estemos pasándole, anuncios o usuarios.
     const ficheroInit = path.join('./init',fichero);
     
-    fs.readFile(ficheroInit, (err, datos)=>{
+    fs.readFile(ficheroInit, 'utf-8', (err, datos)=>{
         if (err){
             callback(err);
             return;

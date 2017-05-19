@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 const Usuarios = require('../models/Usuario');
 const modeloUsuario  = mongoose.model('Usuario');
+const sha = require('sha256');
 
 const leerFichero = require('./leeFichero');
 
@@ -22,6 +23,8 @@ function leerJson() {
 function cargarUsuario(usuarioNuevo){
     return new Promise((resolve, reject) =>{
         const usuario = new modeloUsuario(usuarioNuevo);
+
+        usuario.clave = sha.x2(usuario.clave);        
 
         usuario.save(usuarioNuevo, (err, cargado) =>{
             if (err) {

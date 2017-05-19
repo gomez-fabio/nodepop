@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// rutas
 app.use('/',               require('./routes/index'));
 app.use('/apiv1/anuncios', require('./routes/apiv1/anuncios'));
 app.use('/apiv1/usuarios', require('./routes/apiv1/usuarios'));
