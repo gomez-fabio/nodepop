@@ -31,6 +31,15 @@ anuncioSchema.statics.list = function(filter, limit, skip, fields, sort, callbac
   query.exec(callback);
 };
 
+// método estático count
+anuncioSchema.statics.cuenta = function(filter, limit, skip, callback) {
+  const query = Anuncio.count(filter);
+
+  query.limit(limit);
+  query.skip(skip);
+  query.exec(callback);
+};
+
 // método estático que lista tags
 anuncioSchema.statics.listaTags = function(callback){
     Anuncio.distinct('tags',callback);

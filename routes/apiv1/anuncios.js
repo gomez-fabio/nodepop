@@ -17,20 +17,17 @@ router.get('/', basicAuth, (req, res, next) => {
     const venta  = req.query.venta;
     const precio = req.query.precio;
     const tags   = req.query.tags;
-    const includeTotal = req.query.includeTotal;
-    
+    const includeTotal = req.query.includetotal;
+        
     const filter = {};
     
     // Parámetros de la búsqueda
-    const limit  = parseInt(req.query.limit);
-    const skip   = parseInt(req.query.skip);
-    //const fields = null;s
-    //const fields = req.query.fields;
-    //const fields = {nombre: 1, venta:1, precio:1, foto:1, tags:1 };
+    var limit  = parseInt(req.query.limit);
+    var skip   = parseInt(req.query.skip);
+
+    var totalRegistros;    
     const fields = {_id: 0, __v: 0};
     const sort   = req.query.sort;
-
-    
 
     if (nombre) {
         filter.nombre = new RegExp('^' + nombre, "i"); //case no sensitive y que comience por
@@ -58,7 +55,6 @@ router.get('/', basicAuth, (req, res, next) => {
             }
         }else{
             //precio exacto
-            console.log('precio exacto', precio);
             filter.precio = precio;
         }
     }
@@ -69,27 +65,40 @@ router.get('/', basicAuth, (req, res, next) => {
         filter.tags = { $in: arrayTags }; // El operador $in "matchea" los valores de un array
     }
 
-    // if (includeTotal){
-
-    // }
-
-    Anuncio.list(filter,limit, skip, fields, sort, (err, listaanuncios) =>{
-        if(err){
-            next(err);
-            return;
+    if (includeTotal === 'true'){
+        if (isNaN(skip)){
+            skip = 0;
         }
-        res.json({success: true, result: listaanuncios});
-    });
-});
-
-/*lista de Tags existentes */
-router.get('/tags',basicAuth,(req,res,next)=>{
-     Anuncio.listaTags((err,data)=>{
+        if (isNaN(limit)){
+            limit = 0;
+        }
+        Anuncio.cuenta(filter, limit, skip, (err, total) =>{
             if (err){
                 next(err);
                 return;
             }
-            res.json({success: true, result: data});
+            totalRegistros = total;
+        });
+    }
+    
+    Anuncio.list(filter,limit, skip, fields, sort, (err, listaAnuncios) =>{
+        if(err){
+            next(err);
+            return;
+        }
+        res.json({success: true, total: totalRegistros, result: listaAnuncios});
+    });
+
+}); //cierre router.get
+
+/*lista de Tags existentes */
+router.get('/tags',basicAuth,(req,res,next)=>{
+     Anuncio.listaTags((err,listaTags)=>{
+            if (err){
+                next(err);
+                return;
+            }
+            res.json({success: true, result: listaTags});
      });  
 
 });

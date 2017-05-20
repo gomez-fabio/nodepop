@@ -154,6 +154,7 @@ Finalmente podemos combinar los diferentes filtros
 
 Podemos aplicar parametros adicionales en el query string,
 
+- includetotal : [http://localhost:3000/apiv1/anuncios?includetotal=true](http://localhost:3000/apiv1/anuncios?includetotal=true) Si incluimos este parámetro con valor a `true`, nos devolverá el numero de registros que estamos filtrando por `querystring`, ojo, no el total de la db. Se puede combinar con el resto de parametros y filtros, por ejemplo [http://localhost:3000/apiv1/anuncios?tags=lifestyle,work&precio>500&includetotal=true&sort=precio&skip=1](http://localhost:3000/apiv1/anuncios?tags=lifestyle,work&precio>500&includetotal=true&sort=precio&skip=1)
 - limit : [http://localhost:3000/apiv1/anuncios?limit=n](http://localhost:3000/apiv1/anuncios?limit=n) (siendo n un número entero que permite devolver sólo los n primeros de la lista)
 - skip  : [http://localhost:3000/apiv1/anuncios?skip=n](http://localhost:3000/apiv1/anuncios?skip=n) (siendo n un número entero que permite saltar los n primeros de la lista)
 - sort  : [http://localhost:3000/apiv1/anuncios?sort=precio](http://localhost:3000/apiv1/anuncios?sort=precio) (nos permite ordenar por cualquier campo de manera ascendente) o [http://localhost:3000/apiv1/anuncios?sort=-precio](http://localhost:3000/apiv1/anuncios?sort=-precio) (de manera descendente) 
