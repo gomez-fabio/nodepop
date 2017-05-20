@@ -10,7 +10,8 @@
 1. Clonar el repo de [https://github.com/gomez-fabio/nodepop.git](https://github.com/gomez-fabio/nodepop.git)
 
 2. Entrar al directorio nodepop desde la consola y ejecutar `npm install`, para que nos instale todas las dependencias.
-4. Una vez finalizado el punto 3, debemos inicializar la base de datos, para lo que, desde la consola ejecutar `npm run installDB`, si todo es correcto, veremos en consola:
+
+3. Una vez finalizado el punto 2, debemos inicializar la base de datos, para lo que, desde la consola ejecutar `npm run installDB`, si todo es correcto, veremos en consola:
 
 		> nodepop@0.0.0 installDB /nodepop
 		
@@ -24,6 +25,9 @@
 		
 		Escribe ahora npm run start para iniciar.
 
+4. Tenemos otras dos opciones para iniciar
+	 - `npm run start`, que inicia de manera "normal".
+	 - `npm run dev`, que inicia en modo debug y con nodemon, de manera que recarga con cada modificación de fichero.
 
 ### Detalles de la API
 
