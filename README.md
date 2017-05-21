@@ -31,39 +31,58 @@
 
 ### Detalles de la API
 
-La api tiene implementada autenticación básica para la consulta de anuncios y tags, por lo que debemos suministrar un email y una contraseña para poder usarla.
+La api tiene implementada autenticación con json web token para la consulta de anuncios y tags, por lo que debemos suministrar un token para acceder a la api.
 
 ##**Registro de usuarios**
 
 Disponible en [http://localhost:3000/apiv1/usuarios](http://localhost:3000/apiv1/usuarios)
 
-Usaremos el verbo ***post*** de http, y pasaremos por el body, tres valores, nombre, email y clave. El contenido del body en form-urlencoded. El campo email no podremos repetirlo.
+Usaremos el verbo ***post*** de http, y pasaremos por el body, tres valores, nombre, email y clave (se alamacena hasheada). El contenido del body en form-urlencoded. El campo email es clave única. Durante el registro se nos suministra un token, que es necesario para acceder a la api, este token tiene una validez de 15 minutos.
 
 Ejemplo de un post correcto:
 
 	{
 	  "success": true,
-	    "result": {
+	  "result": {
 	    "__v": 0,
 	    "nombre": "javier",
 	    "email": "javier2@gmail.com",
 	    "clave": "9595c9df90075148eb06860365df33584b75bff782a510c6cd4883a419833d50",
-	    "_id": "592003a6adf0f0ae8ed46584"
-	  }
+	    "_id": "5921a7c418aeea32f46b615a"
+	  },
+	  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OTIxYTdjNDE4YWVlYTMyZjQ2YjYxNWEiLCJpYXQiOjE0OTUzNzc4NjAsImV4cCI6MTQ5NTM3ODc2MH0.nv47JyVySjKiVX2ECaptXs1J_aS9_DqXgT0lC38WNQM"
 	}
-
+	
 Ejemplo de un post con el mail repetido:
 
 	{
 	  "success": false,
 	   "error": "E11000 duplicate key error collection: nodepop.usuarios index: email_1 dup key: { : \"javier2@gmail.com\" }"
 	}
+##**Autenticación**
+
+Disponible en [http://localhost:3000/apiv1/usuarios/authenticate](http://localhost:3000/apiv1/usuarios/authenticate).
+
+Cuando nuestro token haya expirado, para renovarlo utilizaremos éste método, los tokens, de nuevo, tienen una validez de 15 minutos.
+
+Usaremos el verbo ***post*** de http, y pasaremos por el body, dos valores, email y clave (previamente nos debemos haber registrado como usuarios con el método del punto anterior). El contenido del body en form-urlencoded
+
+Ejemplo de un post correcto:
+	
+	{
+	  "success": true,
+	  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OTIxYTdjNDE4YWVlYTMyZjQ2YjYxNWEiLCJpYXQiOjE0OTUzNzk0MzIsImV4cCI6MTQ5NTM4MDMzMn0.SLAlqxdNyDahEaZRu9Af7qBJ0WIda1Vmu25C69HL7KA"
+	}
+
+Ejemplo de un get incorrecto:
+	
+	Unauthorized
 
 ##**Lista de tags existentes**
 
 Disponible en [http://localhost:3000/apiv1/anuncios/tags](http://localhost:3000/apiv1/anuncios/tags)
 
-Usaremos el verbo ***get*** de http, y es necesaria autenticación.
+Usaremos el verbo ***get*** de http, y es necesaria la autenticación con un token válido. En la cabecera de la petición debemos incluir una `clave` token con el valor de un token válido.
 
 Ejemplo de un get correcto:
 
@@ -79,13 +98,16 @@ Ejemplo de un get correcto:
 
 Ejemplo de get sin autorizar
 
-	Unauthorized
+	{
+	  "success": false,
+	  "result": "Unathorized"
+	}
 
 ##**Lista de anuncios**
 
 Disponible en [http://localhost:3000/apiv1/anuncios](http://localhost:3000/apiv1/anuncios)
 
-Usaremos el verbo ***get*** de http, y es necesaria autenticación. Si usamos postman, podremos clicar en los enlaces de la foto, y nos abrirá la imagen, los recursos de imágenes están en abierto en la carpeta public, por lo que no es necesaria autenticación.
+Usaremos el verbo ***get*** de http, y es necesaria autenticación, de nuevo, en la cabecera de la petición debemos incluir una `clave` token con el valor de un token válido. Si usamos postman, podremos clicar en los enlaces de la foto, y nos abrirá la imagen, los recursos de imágenes están en abierto en la carpeta public, por lo que no es necesaria autenticación.
 
 Ejemplo de un get correcto:
 	
@@ -134,8 +156,18 @@ Ejemplo de un get correcto:
 	
 Ejemplo de get sin autorizar
 
-	Unauthorized
+	{
+	  "success": false,
+	  "result": "Unathorized"
+	}
 
+ejemplo de un get con un token expirado
+
+	{
+	  "success": false,
+	  "error": "Token expired"
+	}
+	
 ##**Lista de anuncios filtrada**
 
 Sobre la lista de anuncios se pueden aplicar filtros, pasados como query string, los disponibles son sobre los campos

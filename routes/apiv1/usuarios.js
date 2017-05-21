@@ -22,15 +22,12 @@ router.post('/', (req, res, next)=>{
 
 router.post('/authenticate', (req, res, next)=>{
     const user = req.body;
-    console.log(user.clave);
-    console.log (sha.x2(user.clave));
     if(user){                      //hay usuario y pass
             Usuario.findOne({email: req.body.email}).exec((err, data)=>{
                 if (err){
                     next(err);
                     return;
                 }
-                console.log(data);
                 if (data === null){                      //no devuelve nada por ese email
                     res.sendStatus(401);
                     return;
