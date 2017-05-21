@@ -33,11 +33,11 @@
 
 La api tiene implementada autenticación con json web token para la consulta de anuncios y tags, por lo que debemos suministrar un token para acceder a la api.
 
-##**Registro de usuarios**
+##**Registro de usuarios**##
 
 Disponible en [http://localhost:3000/apiv1/usuarios](http://localhost:3000/apiv1/usuarios)
 
-Usaremos el verbo ***post*** de http, y pasaremos por el body, tres valores, nombre, email y clave (se alamacena hasheada). El contenido del body en form-urlencoded. El campo email es clave única. Durante el registro se nos suministra un token, que es necesario para acceder a la api, este token tiene una validez de 15 minutos.
+Usaremos el verbo ***post*** de http, y pasaremos por el body, tres valores, nombre, email y clave (se almacena hasheada). El contenido del body en form-urlencoded. El campo email es clave única. Durante el registro se nos suministra un token, que es necesario para acceder a la api, este token tiene una validez de 15 minutos.
 
 Ejemplo de un post correcto:
 
