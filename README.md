@@ -1,12 +1,13 @@
 # NODEPOP
 
-### Requisitos previos
+## Requisitos previos
 
 1. NodeJS
 2. MongoDB
 3. Postman (recomendable)
 
-### Instalación
+## Instalación
+
 1. Clonar el repo de [https://github.com/gomez-fabio/nodepop.git](https://github.com/gomez-fabio/nodepop.git)
 
 2. Entrar al directorio nodepop desde la consola y ejecutar `npm install`, para que nos instale todas las dependencias.
@@ -29,11 +30,11 @@
 	 - `npm run start`, que inicia de manera "normal".
 	 - `npm run dev`, que inicia en modo debug y con nodemon, de manera que recarga con cada modificación de fichero.
 
-### Detalles de la API
+## Detalles de la API
 
 La api tiene implementada autenticación con json web token para la consulta de anuncios y tags, por lo que debemos suministrar un token para acceder a la api.
 
-##**Registro de usuarios**##
+### Registro de usuarios
 
 Disponible en [http://localhost:3000/apiv1/usuarios](http://localhost:3000/apiv1/usuarios)
 
@@ -59,7 +60,7 @@ Ejemplo de un post con el mail repetido:
 	  "success": false,
 	   "error": "E11000 duplicate key error collection: nodepop.usuarios index: email_1 dup key: { : \"javier2@gmail.com\" }"
 	}
-##**Autenticación**
+### Autenticación
 
 Disponible en [http://localhost:3000/apiv1/usuarios/authenticate](http://localhost:3000/apiv1/usuarios/authenticate).
 
@@ -78,7 +79,7 @@ Ejemplo de un get incorrecto:
 	
 	Unauthorized
 
-##**Lista de tags existentes**
+### Lista de tags existentes
 
 Disponible en [http://localhost:3000/apiv1/anuncios/tags](http://localhost:3000/apiv1/anuncios/tags)
 
@@ -103,7 +104,7 @@ Ejemplo de get sin autorizar
 	  "result": "Unathorized"
 	}
 
-##**Lista de anuncios**
+### Lista de anuncios
 
 Disponible en [http://localhost:3000/apiv1/anuncios](http://localhost:3000/apiv1/anuncios)
 
@@ -168,7 +169,7 @@ ejemplo de un get con un token expirado
 	  "error": "Token expired"
 	}
 	
-##**Lista de anuncios filtrada**
+### Lista de anuncios filtrada
 
 Sobre la lista de anuncios se pueden aplicar filtros, pasados como query string, los disponibles son sobre los campos
 
