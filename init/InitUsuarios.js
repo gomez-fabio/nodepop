@@ -25,7 +25,6 @@ function cargarUsuario(usuarioNuevo){
         const usuario = new modeloUsuario(usuarioNuevo);
 
         usuario.clave = sha.x2(usuario.clave);        
-
         usuario.save(usuarioNuevo, (err, cargado) =>{
             if (err) {
                 reject(err);
@@ -46,8 +45,8 @@ async function initUsuarios(){
     });
 
     const listaEnJson = await leerJson(); // leer json
-    
-    // cargamos lo leído del json
+
+    // cargamos lo leído del json, usamos este for para poder recorrer los usuarios y hashearles la clave
     for (let i = 0 ; i < listaEnJson.usuarios.length ; i ++){
         await cargarUsuario(listaEnJson.usuarios[i], (err, usuarioNuevo) =>{
             if (err) {
@@ -55,6 +54,13 @@ async function initUsuarios(){
             }
         });
     }
+
+    // // cargamos lo leído del json
+    // await Usuarios.insertMany(listaEnJson.usuarios, (err) =>{
+    //     if (err){
+    //         reject(err);
+    //     }
+    // });
 
 console.log("Colección de usuarios inicializada correctamente.\n");
 }
