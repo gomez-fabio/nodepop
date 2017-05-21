@@ -18,20 +18,6 @@ function leerJson() {
   });
 }
 
-// Función que devuelve una promesa con la que cargamos el anuncio
-function cargarAnuncio(anuncioNuevo){
-    return new Promise((resolve, reject) =>{
-        const anuncio = new modeloAnuncio(anuncioNuevo);
-        anuncio.foto = '/images/anuncios/' + anuncio.foto;
-        anuncio.save(anuncioNuevo, (err, cargado) =>{
-            if (err) {
-                reject(err);
-            }
-            resolve(cargado);
-        });
-    });
-}
-
 // funcion ppal, borramos anuncios, leemos fichero json y cargamos lo leido
 async function initAnuncios(){
 
@@ -45,23 +31,13 @@ async function initAnuncios(){
     const listaEnJson = await leerJson(); // leer json
     
     // cargamos lo leído del json
-    for (let i = 0 ; i < listaEnJson.anuncios.length ; i ++){
-        await cargarAnuncio(listaEnJson.anuncios[i], (err, anuncioNuevo) =>{
-            if (err) {
-                reject(err);
-            }
-        });
-    }
-
+    await Anuncios.insertMany(listaEnJson.anuncios, (err) =>{
+        if (err){
+            reject(err);
+        }
+    });
+    
 console.log("Colección de anuncios inicializada correctamente.\n");
 }
-
-// initAnuncios()
-//     .then(()=>{
-//     })
-//     .catch(err => {
-//         console.log('Hubo un error en la inicialización de los anuncios: ', err);
-//         process.exit(1);
-//     });
 
 module.exports = initAnuncios;
