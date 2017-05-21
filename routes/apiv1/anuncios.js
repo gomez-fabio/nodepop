@@ -6,11 +6,11 @@ const mongoose = require('mongoose');
 const Anuncio  = mongoose.model('Anuncio');
 
 
-const basicAuth = require('../../lib/basicAuth');
+const auth = require('../../lib/auth');
 
 /* GET /apiv1/anuncios */
 
-router.get('/', basicAuth, (req, res, next) => {
+router.get('/', auth, (req, res, next) => {
 
     // Filtros en el queryString
     const nombre = req.query.nombre;
@@ -92,7 +92,7 @@ router.get('/', basicAuth, (req, res, next) => {
 }); //cierre router.get
 
 /*lista de Tags existentes */
-router.get('/tags',basicAuth,(req,res,next)=>{
+router.get('/tags',auth,(req,res,next)=>{
      Anuncio.listaTags((err,listaTags)=>{
             if (err){
                 next(err);
