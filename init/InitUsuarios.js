@@ -48,7 +48,8 @@ async function initUsuarios(){
 
     // cargamos lo leído del json, usamos este for para poder recorrer los usuarios y hashearles la clave
     for (let i = 0 ; i < listaEnJson.usuarios.length ; i ++){
-        await cargarUsuario(listaEnJson.usuarios[i], (err, usuarioNuevo) =>{
+    //    await cargarUsuario(listaEnJson.usuarios[i], (err, usuarioNuevo) =>{
+        await cargarUsuario(listaEnJson.usuarios[i], (err) =>{
             if (err) {
                 reject(err);
             }
