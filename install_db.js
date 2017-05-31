@@ -6,11 +6,14 @@ require('./lib/mongooseConnection');
 const mongoose = require('mongoose');
 const Anuncios = require('./models/Anuncio');
 const modeloAnuncio  = mongoose.model('Anuncio');
+const Usuarios = require('./models/Usuario');
+const modeloUsuario  = mongoose.model('Usuario');
+const sha = require('sha256');
 
 const leerFichero = require('./init/leeFichero');
 
 // Funcion que devuelve una promesa con la que leemos el json
-function leerJson() {
+function leerJsonAnuncios() {
   return new Promise((resolve, reject) => {
     leerFichero('anuncios.json', (err, initJson) => {
       if (err) {
@@ -19,6 +22,19 @@ function leerJson() {
       resolve(initJson);
     });
   });
+}
+
+function cargarAnuncio(anuncioNuevo){
+    return new Promise((resolve, reject) =>{
+        const anuncio = new modeloAnuncio(anuncioNuevo);
+        anuncio.foto = '/images/anuncios/' + anuncio.foto;
+        anuncio.save(anuncioNuevo, (err, cargado) =>{
+            if (err) {
+                reject(err);
+            }
+            resolve(cargado);
+        });
+    });
 }
 
 // funcion ppal, borramos anuncios, leemos fichero json y cargamos lo leido
@@ -31,26 +47,22 @@ async function initAnuncios(){
         }
     });
 
-    const listaEnJson = await leerJson(); // leer json
+    const listaAnuncios = await leerJsonAnuncios(); // leer json
     
     // cargamos lo leído del json
-    await Anuncios.insertMany(listaEnJson.anuncios, (err) =>{
-        if (err){
-            reject(err);
-        }
-    });
+    for (let i = 0 ; i < listaAnuncios.anuncios.length ; i ++){
+        await cargarAnuncio(listaAnuncios.anuncios[i], (err) =>{
+            if (err) {
+                reject(err);
+            }
+        });
+    }
     
 console.log("Colección de anuncios inicializada correctamente.\n");
 }
 
-
-const Usuarios = require('./models/Usuario');
-const modeloUsuario  = mongoose.model('Usuario');
-const sha = require('sha256');
-
-
 // Funcion que devuelve una promesa con la que leemos el json
-function leerJson() {
+function leerJsonUsuarios() {
   return new Promise((resolve, reject) => {
     leerFichero('usuarios.json', (err, initJson) => {
       if (err) {
@@ -86,35 +98,19 @@ async function initUsuarios(){
         }
     });
 
-    const listaEnJson = await leerJson(); // leer json
+    const listaUsuarios = await leerJsonUsuarios(); // leer json
 
     // cargamos lo leído del json, usamos este for para poder recorrer los usuarios y hashearles la clave
-    for (let i = 0 ; i < listaEnJson.usuarios.length ; i ++){
-    //    await cargarUsuario(listaEnJson.usuarios[i], (err, usuarioNuevo) =>{
-        await cargarUsuario(listaEnJson.usuarios[i], (err) =>{
+    for (let i = 0 ; i < listaUsuarios.usuarios.length ; i ++){
+        await cargarUsuario(listaUsuarios.usuarios[i], (err) =>{
             if (err) {
                 reject(err);
             }
         });
     }
 
-    // // cargamos lo leído del json
-    // await Usuarios.insertMany(listaEnJson.usuarios, (err) =>{
-    //     if (err){
-    //         reject(err);
-    //     }
-    // });
-
 console.log("Colección de usuarios inicializada correctamente.\n");
 }
-
-// FIN ÑAPA
-
-//const initAnuncios = require('./init/initAnuncios');
-//const initUsuarios = require('./init/initUsuarios');
-
-
-
 
 // funcion asincrona para inicializar la bd
 async function init(){
