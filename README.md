@@ -2,9 +2,22 @@
 
 ## Requisitos previos
 
-1. NodeJS
+1. NodeJS versión 7.6 mínimo.
 2. MongoDB
 3. Postman (recomendable)
+
+## Instancia en aws
+
+ - La url de la instancia es: [http://ec2-34-206-235-238.compute-1.amazonaws.com/](http://ec2-34-206-235-238.compute-1.amazonaws.com/)
+ - Puedes comprobar que es ***nginx*** quien sirve los estáticos directamente, por ejemplo con mi bici ;-) [http://ec2-34-206-235-238.compute-1.amazonaws.com/images/anuncios/bici.jpg](http://ec2-34-206-235-238.compute-1.amazonaws.com/images/anuncios/bici.jpg) verás que la cabecera ***X-Owner*** es igual al nombre de mi usuario de github.
+- Accediendo por dominio puedes comprobar que está la api de ***nodepop*** en funcionamiento [http://ec2-34-206-235-238.compute-1.amazonaws.com/apiv1/anuncios?precio=%3C450&includetotal=true](http://ec2-34-206-235-238.compute-1.amazonaws.com/apiv1/anuncios?precio=%3C450&includetotal=true), si examinas la cabecera verás que quien te responde es ***Express*** y como no te estás autenticando te responderá 
+	
+		{
+		"success": false,
+		"result": "Unathorized"
+		}
+- Si visitas la ***ip***, en lugar de ***nodepop*** verás una plantilla de bootstrat, la ip es [http://34.206.235.238/](http://34.206.235.238/) 
+
 
 ## Instalación
 
