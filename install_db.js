@@ -2,8 +2,8 @@
 
 require('./lib/mongooseConnection');
 
-const initAnuncios = require('/init/initAnuncios');
-const initUsuarios = require('/init/initUsuarios');
+const initAnuncios = require('./init/initAnuncios');
+const initUsuarios = require('./init/initUsuarios');
 
 // funcion asincrona para inicializar la bd
 async function init(){
