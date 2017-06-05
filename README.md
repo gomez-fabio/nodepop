@@ -8,8 +8,7 @@
 
 ## Instancia en aws
 
- - Si visitas la ***ip*** de la instancia verás la plantilla de ***bootstrap***, la ip es [http://34.206.235.238/](http://34.206.235.238/)
-- Accediendo por este subdominio puedes comprobar que la api de ***nodepop*** está funcionando [http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true](http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true), si examinas la cabecera verás que quien te responde es ***Express*** y como no te estás autenticando te responderá 
+- Accediendo por este subdominio puedes comprobar que la api de ***nodepop*** está funcionando [http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true](http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true), si examinas la cabecera verás que quien te responde es ***Express*** y como no te estás autenticando te responderá con un ***403***
 	
 		{
 		"success": false,
@@ -19,7 +18,7 @@
 - Puedes comprobar que es ***Nginx*** quien sirve los estáticos directamente, por ejemplo con mi bici (la foto no es mia) [http://nodepop.fabiogomez.es/images/anuncios/bici.jpg](http://nodepop.fabiogomez.es/images/anuncios/bici.jpg) verás que la cabecera ***X-Owner*** es igual al nombre de mi usuario de github. Otro ejemplo, en la raiz del subdominio, [http://nodepop.fabiogomez.es](http://nodepop.fabiogomez.es), el html lo sirve ***Express*** y el css  ***Nginx***
 
 	### Extras:
-	- Instalado SSL en nginx para los dominios [http://fabiogomez.es](http://fabiogomez.es) y [http://www.fabiogomez.es](http://www.fabiogomez.es) 
+	- Instalado ***SSL*** en ***Nginx*** para los dominios [http://fabiogomez.es](http://fabiogomez.es) y [http://www.fabiogomez.es](http://www.fabiogomez.es), puedes visitarlos con ***http*** y también si visitas la ***ip*** de la instancia, la ip es [http://34.206.235.238/](http://34.206.235.238/), en todos los casos te redirige con un ***301*** a [**https**://www.fabiogomez.es](https://www.fabiogomez.es) y verás la plantilla de ***bootstrap***
 
 ## Instalación
 
