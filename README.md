@@ -8,7 +8,7 @@
 
 ## Instancia en aws
 
-- Accediendo por este subdominio puedes comprobar que la api de ***nodepop*** está funcionando [http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true](http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true), si examinas la cabecera verás que quien te responde es ***Express*** y como no te estás autenticando te responderá con un ***403***
+- Accediendo por este subdominio puedes comprobar que la api de ***nodepop*** está funcionando [http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true](http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true), configurada con ***pm2*** para que arranque al inicio del sistema. Si examinas la cabecera verás que quien te responde es ***Express*** y como no te estás autenticando te responderá con un ***403***
 	
 		{
 		"success": false,
@@ -18,7 +18,7 @@
 - Puedes comprobar que es ***Nginx*** quien sirve los estáticos directamente, por ejemplo con mi bici (la foto no es mia) [http://nodepop.fabiogomez.es/images/anuncios/bici.jpg](http://nodepop.fabiogomez.es/images/anuncios/bici.jpg) verás que la cabecera ***X-Owner*** es igual al nombre de mi usuario de github. Otro ejemplo, en la raiz del subdominio, [http://nodepop.fabiogomez.es](http://nodepop.fabiogomez.es), el html lo sirve ***Express*** y el css  ***Nginx***
 
 	### Extras:
-	- Instalado ***SSL*** en ***Nginx*** para los dominios [http://fabiogomez.es](http://fabiogomez.es) y [http://www.fabiogomez.es](http://www.fabiogomez.es), puedes visitarlos con ***http*** y también si visitas la ***ip*** de la instancia, la ip es [http://34.206.235.238/](http://34.206.235.238/), en todos los casos te redirige con un ***301*** a [**https**://www.fabiogomez.es](https://www.fabiogomez.es) y verás la plantilla de ***bootstrap***. También he incluido ***Nodepop*** con ***ssl***, ya que tiene sentido que una ***api*** se consuma con ***ssl***, y en casos como ***apple*** y sus aplicaciones para ***ios***, obligatorio.
+	- Instalado ***SSL*** en ***Nginx*** para los dominios [http://fabiogomez.es](http://fabiogomez.es) y [http://www.fabiogomez.es](http://www.fabiogomez.es), puedes visitarlos con ***http*** y también si visitas la ***ip*** de la instancia [http://34.206.235.238/](http://34.206.235.238/), en todos los casos te redirige con un ***301*** a [**https**://www.fabiogomez.es](https://www.fabiogomez.es) y verás la plantilla de ***bootstrap***. También he incluido ***Nodepop*** con ***ssl***, ya que tiene sentido que una ***api*** se consuma con ***ssl***.
 
 ## Instalación
 
