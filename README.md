@@ -19,6 +19,8 @@
 
 	### Extras:
 	- Instalado ***SSL*** en ***Nginx*** para los dominios [http://fabiogomez.es](http://fabiogomez.es) y [http://www.fabiogomez.es](http://www.fabiogomez.es), puedes visitarlos con ***http*** y también si visitas la ***ip*** de la instancia [http://34.206.235.238/](http://34.206.235.238/), en todos los casos te redirige con un ***301*** a [**https**://www.fabiogomez.es](https://www.fabiogomez.es) y verás la plantilla de ***bootstrap***. También he incluido ***Nodepop*** con ***ssl***, ya que tiene sentido que una ***api*** se consuma con ***ssl***.
+	
+	- Toda la instalación está funcionando en un contenedor ***docker***. No he tenido narices de hacer funcionar 
 
 ## Instalación
 
