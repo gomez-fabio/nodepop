@@ -8,20 +8,24 @@
 
 ## Instancia en aws
 
-- Accediendo por este subdominio puedes comprobar que la api de ***nodepop*** está funcionando [http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true](http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true), configurada con ***pm2*** para que arranque al inicio del sistema. Si examinas la cabecera verás que quien te responde es ***Express*** y como no te estás autenticando te responderá con un ***403***
+- Accediendo por este subdominio puedes comprobar que la api de ***nodepop*** está funcionando [http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true](http://nodepop.fabiogomez.es/apiv1/anuncios?precio=%3C450&includetotal=true),  si examinas la cabecera verás que quien te responde es ***Express*** y como no te estás autenticando te responderá con un ***403***.
 	
 		{
 		"success": false,
 		"result": "Unathorized"
 		}
-	
+Node es arrancada con ***pm2*** para que arranque al inicio del sistema y reinicie en errores, ***mongodb*** corre con ***auth*** y el servicio ***ssh*** corriendo en otro puerto !=22.
+
 - Puedes comprobar que es ***Nginx*** quien sirve los estáticos directamente, por ejemplo con mi bici (la foto no es mia) [http://nodepop.fabiogomez.es/images/anuncios/bici.jpg](http://nodepop.fabiogomez.es/images/anuncios/bici.jpg) verás que la cabecera ***X-Owner*** es igual al nombre de mi usuario de github. Otro ejemplo, en la raiz del subdominio, [http://nodepop.fabiogomez.es](http://nodepop.fabiogomez.es), el html lo sirve ***Express*** y el css  ***Nginx***
 
 	### Extras:
 	- Instalado ***SSL*** en ***Nginx*** para los dominios [http://fabiogomez.es](http://fabiogomez.es) y [http://www.fabiogomez.es](http://www.fabiogomez.es), puedes visitarlos con ***http*** y también si visitas la ***ip*** de la instancia [http://34.206.235.238/](http://34.206.235.238/), en todos los casos te redirige con un ***301*** a [**https**://www.fabiogomez.es](https://www.fabiogomez.es) y verás la plantilla de ***bootstrap***. También he incluido ***Nodepop*** con ***ssl***, ya que tiene sentido que una ***api*** se consuma con ***ssl***.
 	
-	- Toda la instalación está funcionando en un contenedor ***docker***. No he tenido narices de hacer funcionar systemd en el contenedor, y al reiniciar no arrancaba los servicios, he tenido que hacer lo que creo es una ñapa, me aseguro de iniciar nginx, mongodb y pm2 desde el host donde está el contenedor llamándolos desde /etc/rc.local, es por eso que pm2 no está ejecutándose con el usuario node.
+	- Toda la instalación está funcionando en un contenedor ***docker***. No he tenido narices de hacer funcionar systemd dentro del contenedor, por tanto al reiniciar el host, o el contenedor, no arrancaban los servicios, he tenido que hacer lo que creo es una ñapa, me aseguro de iniciar nginx, mongodb y pm2 desde el host donde está el contenedor llamándolos desde /etc/rc.local, es por eso que pm2 no está ejecutándose con el usuario node.
 	![https://raw.githubusercontent.com/gomez-fabio/nodepop/master/public/images/docker.png](https://raw.githubusercontent.com/gomez-fabio/nodepop/master/public/images/docker.png)
+	Tienes la imagen disponible en [https://hub.docker.com/r/gomezfabio/devops/](https://hub.docker.com/r/gomezfabio/devops/)
+
+	- Por cierto que tengo otra instancia de aws, sin docker, exactamente con la misma configuración, pero aquí con el daemon de pm2 corriendo desde el usuario node, la tienes en [http://www2.fabiogomez.es](http://www2.fabiogomez.es) y en [http://nodepop2.fabiogomez.es](http://nodepop2.fabiogomez.es), todo lo explicado arriba funciona igual, estáticos de node, ssl con redirección, etc..
 
 ## Instalación
 
